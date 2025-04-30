@@ -1,0 +1,73 @@
+public with sharing class LogSiteInteractionHandler {
+
+    public class Input {
+        @InvocableVariable(label='Lead Id' description='Id of the Lead')
+        public Id leadId;
+
+        @InvocableVariable(label='Site Id' description='Id of the Site__c')
+        public Id siteId;
+    }
+
+    public class Output {
+        @InvocableVariable(label='Status' description='Result status for this interaction')
+        public String status;
+    }
+
+    @InvocableMethod(
+        label='Log Site Interaction'
+        description='Creates or updates Interaction__c record based on Lead and Site Id.'
+    )
+    public static List<Output> log(List<Input> inputs) {
+        List<Output> results = new List<Output>();
+
+        Map<String, Input> keyToInput = new Map<String, Input>();
+        for (Input input : inputs) {
+            if (input.leadId != null && input.siteId != null) {
+                String extKey = input.leadId + '_' + input.siteId;
+                keyToInput.put(extKey, input);
+            }
+        }
+
+        if (keyToInput.isEmpty()) return results;
+
+        // Query existing interactions
+        Set<String> extKeys = new Set<String>(keyToInput.keySet());
+        Map<String, Interaction__c> existingMap = new Map<String, Interaction__c>();
+
+        for (Interaction__c inter : [
+            SELECT Id, ExternalKey__c
+            FROM Interaction__c
+            WHERE ExternalKey__c IN :extKeys
+        ]) {
+            existingMap.put(inter.ExternalKey__c, inter);
+        }
+
+        List<Interaction__c> toInsert = new List<Interaction__c>();
+        List<Interaction__c> toUpdate = new List<Interaction__c>();
+
+        for (String key : keyToInput.keySet()) {
+            Input input = keyToInput.get(key);
+
+            if (existingMap.containsKey(key)) {
+                Interaction__c inter = existingMap.get(key);
+                inter.Activity_DateTime__c = DateTime.now();
+                toUpdate.add(inter);
+            } else {
+                Interaction__c newInter = new Interaction__c();
+                newInter.Lead__c = input.leadId;
+                newInter.Site__c = input.siteId;
+                newInter.Activity_DateTime__c = DateTime.now();
+                toInsert.add(newInter);
+            }
+
+            Output out = new Output();
+            out.status = 'Processed: ' + key;
+            results.add(out);
+        }
+
+        if (!toInsert.isEmpty()) insert toInsert;
+        if (!toUpdate.isEmpty()) update toUpdate;
+
+        return results;
+    }
+}

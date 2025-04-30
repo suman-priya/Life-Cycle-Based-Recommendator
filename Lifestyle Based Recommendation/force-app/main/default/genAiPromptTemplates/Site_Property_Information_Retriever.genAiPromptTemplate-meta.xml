@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>neiWfeOeThuzOZv5SH06IzaUWJMhrYang3fURlceiU0=_2</activeVersionIdentifier>
+    <description>Extract and summarize key property details like Home Rules, Amenities, Maintenance, and Other Information from documents uploaded to the related Site.</description>
+    <developerName>Site_Property_Information_Retriever</developerName>
+    <masterLabel>Site Property Information Retriever</masterLabel>
+    <templateVersions>
+        <content>
+You are a helpful assistant that supports customers with questions about properties listed on the website.
+Use the retrieved content to locate and summarize relevant information.
+
+###
+INSTRUCTIONS
+
+1. Understand the Customer&apos;s Question
+ Carefully read the user&apos;s query from the QUESTION section.
+2. Evaluate the Retrieved Content
+ Review the retrieved results under KNOWLEDGE. Check if the content includes relevant and accurate details to answer the question.
+3. Generate a Response
+ - If relevant information is found:  - Return a structured JSON response under Response.  - Include a maximum of 10 matched results.  - For each match, use the following format:
+{
+ &quot;fieldName&quot;: &quot;Chunk&quot;,
+ &quot;value&quot;: &quot;chunkvalue&quot;
+},
+{
+ &quot;fieldName&quot;: &quot;siteName&quot;,
+ &quot;value&quot;: &quot;sitename&quot;
+},
+{
+ &quot;fieldName&quot;: &quot;siteId&quot;,
+ &quot;value&quot;: &quot;value of siteId&quot;
+},
+{
+ &quot;fieldName&quot;: &quot;other field label&quot;,
+ &quot;value&quot;: &quot;other field value&quot;
+}
+
+
+
+ ### RETRIEVED KNOWLEDGE:
+{!$EinsteinSearch:hybrid_new_Site_c_Home_Retriever_1Cx_zjG7f1caa2f.results}
+
+ ###
+QUESTION:
+{!$Input:InputQuery}
+
+ ###
+Response:
+{
+ &quot;searchResults&quot;: [
+ {
+ &quot;result&quot;: [
+ {
+  &quot;fieldName&quot;: &quot;Chunk&quot;,
+  &quot;value&quot;: &quot;chunkvalue&quot;
+ },
+ {
+  &quot;fieldName&quot;: &quot;siteName&quot;,
+  &quot;value&quot;: &quot;sitename&quot;
+ },
+ {
+  &quot;fieldName&quot;: &quot;siteId&quot;,
+  &quot;value&quot;: &quot;value of siteId&quot;
+ },
+ {
+  &quot;fieldName&quot;: &quot;other field label&quot;,
+  &quot;value&quot;: &quot;other field value&quot;
+ }
+ ]
+ }
+ ]
+}
+
+</content>
+        <inputs>
+            <apiName>InputQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputQuery</masterLabel>
+            <referenceName>Input:InputQuery</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getEinsteinRetrieverResults/hybrid_new_Site_c_Home_Retriever_1Cx_zjG7f1caa2f</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>searchText</parameterName>
+                <valueExpression>{!$Input:InputQuery}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://Integer</definition>
+                <isRequired>false</isRequired>
+                <parameterName>resultCount</parameterName>
+                <valueExpression>20</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://List&lt;String&gt;</definition>
+                <isRequired>false</isRequired>
+                <parameterName>outputFieldNames</parameterName>
+                <valueExpression>[&quot;Chunk&quot;,&quot;Chunk_Sequence_Number&quot;,&quot;Chunk_Source_Record_Id&quot;,&quot;Site_Number&quot;,&quot;Site&quot;,&quot;Record_ID&quot;,&quot;PostalCode&quot;,&quot;No_of_rooms&quot;,&quot;No_of_floors&quot;,&quot;Name&quot;,&quot;Currency_ISO_Code&quot;,&quot;CountryCode&quot;,&quot;Country&quot;,&quot;City&quot;,&quot;Amount&quot;,&quot;Area&quot;,&quot;Area_Size&quot;,&quot;Building_Type&quot;]</valueExpression>
+            </parameters>
+            <referenceName>EinsteinSearch:hybrid_new_Site_c_Home_Retriever_1Cx_zjG7f1caa2f</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>neiWfeOeThuzOZv5SH06IzaUWJMhrYang3fURlceiU0=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>
+You are a helpful assistant that supports customers with questions about properties listed on the website.
+Use the retrieved content to locate and summarize relevant information.
+
+###
+INSTRUCTIONS
+
+1. Understand the Customer&apos;s Question
+ Carefully read the user&apos;s query from the QUESTION section.
+2. Evaluate the Retrieved Content
+ Review the retrieved results under KNOWLEDGE. Check if the content includes relevant and accurate details to answer the question.
+3. Generate a Response
+ - If relevant information is found:  - Return a structured JSON response under Response.  - Include a maximum of 10 matched results.  - For each match, use the following format:
+{
+ &quot;fieldName&quot;: &quot;Chunk&quot;,
+ &quot;value&quot;: &quot;chunkvalue&quot;
+},
+{
+ &quot;fieldName&quot;: &quot;siteName&quot;,
+ &quot;value&quot;: &quot;sitename&quot;
+},
+{
+ &quot;fieldName&quot;: &quot;siteId&quot;,
+ &quot;value&quot;: &quot;value of siteId&quot;
+},
+{
+ &quot;fieldName&quot;: &quot;other field label&quot;,
+ &quot;value&quot;: &quot;other field value&quot;
+}
+
+
+
+ ### RETRIEVED KNOWLEDGE:
+{!$EinsteinSearch:Vector_New_Site_c_Home_Retriever_1Cx_zjG77da1241.results}
+
+ ###
+QUESTION:
+{!$Input:InputQuery}
+
+ ###
+Response:
+{
+ &quot;searchResults&quot;: [
+ {
+ &quot;result&quot;: [
+ {
+  &quot;fieldName&quot;: &quot;Chunk&quot;,
+  &quot;value&quot;: &quot;chunkvalue&quot;
+ },
+ {
+  &quot;fieldName&quot;: &quot;siteName&quot;,
+  &quot;value&quot;: &quot;sitename&quot;
+ },
+ {
+  &quot;fieldName&quot;: &quot;siteId&quot;,
+  &quot;value&quot;: &quot;value of siteId&quot;
+ },
+ {
+  &quot;fieldName&quot;: &quot;other field label&quot;,
+  &quot;value&quot;: &quot;other field value&quot;
+ }
+ ]
+ }
+ ]
+}
+
+</content>
+        <inputs>
+            <apiName>InputQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputQuery</masterLabel>
+            <referenceName>Input:InputQuery</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getEinsteinRetrieverResults/Vector_New_Site_c_Home_Retriever_1Cx_zjG77da1241</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>searchText</parameterName>
+                <valueExpression>{!$Input:InputQuery}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://Integer</definition>
+                <isRequired>false</isRequired>
+                <parameterName>resultCount</parameterName>
+                <valueExpression>20</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://List&lt;String&gt;</definition>
+                <isRequired>false</isRequired>
+                <parameterName>outputFieldNames</parameterName>
+                <valueExpression>[&quot;Chunk&quot;,&quot;Chunk_Sequence_Number&quot;,&quot;Chunk_Record_Id&quot;,&quot;Source_Record_Id&quot;,&quot;Amount&quot;,&quot;Area&quot;,&quot;Area_Size&quot;,&quot;Building_Type&quot;,&quot;City&quot;,&quot;Country&quot;,&quot;Name&quot;,&quot;No_of_floors&quot;,&quot;No_of_rooms&quot;,&quot;PostalCode&quot;,&quot;Record_ID&quot;,&quot;Site&quot;,&quot;Site_Number&quot;,&quot;Street&quot;]</valueExpression>
+            </parameters>
+            <referenceName>EinsteinSearch:Vector_New_Site_c_Home_Retriever_1Cx_zjG77da1241</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>neiWfeOeThuzOZv5SH06IzaUWJMhrYang3fURlceiU0=_2</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>
